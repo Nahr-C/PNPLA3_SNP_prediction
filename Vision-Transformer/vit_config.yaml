@@ -1,0 +1,52 @@
+wandb:
+  # project: Attentionmap PNPLA3
+  project: Manuscript run
+  config: {
+    "learning_rate": 0.00001,
+    "architecture": "ViT base 224",
+    "dataset": "unbalanced normal liver (full)",
+    "epochs": 20,}
+
+model:
+  seed: 1219
+  image_size: 224
+  num_channels: 3
+  num_labels: 2
+  num_attention_heads: 6
+  classification_threshold: "Youden_index" # "Youden_index" or any give value between 0 and 1 like 0.5
+
+training:
+  cv_fold_num: 5
+  batch_size: 64
+  epochs: 20
+  optimizer:
+    # AdamW
+    learning_rate: 0.00001
+    weight_decay: 0.001
+
+  augumentation:
+    - "v2.RandomHorizontalFlip()"
+    - "v2.RandomVerticalFlip()"
+    - "v2.RandomRotation(30)"
+    - "v2.ToTensor()"
+    # - "v2.RandomCrop(224, padding=30)"
+    # - "v2.RandomPerspective()"
+    # - "v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])"
+    # - "v2.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])"
+
+evaluation:
+  batch_size: 32
+  augumentation: 
+    - "v2.ToTensor()"
+    # - "v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])"
+    # - "v2.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])"
+
+data:
+  output: "output"
+  data_dir: "training_dataset/SLD_cohort" # "nonSLD_cohort" or "full_cohort"
+
+  # protective: rs72613567_TA, rs2642438_A
+  # harmful: rs1260326_T, rs58542926_T, rs738409_G
+  snp: 'rs738409_G' 
+
+  cohort: 'Full' # Obese, Notobese, Male, Female, Full, Age_young, Age_medium, Age_old

@@ -1,0 +1,41 @@
+# ===============================================
+# Project configuration file for ResNet
+# 
+# File structure：
+# - training: training parameter, optimizer, augumentation method
+# - evaluation: evaluation parameter
+# - data: data path
+#
+# Please adjust parameters according to your project
+# =============================================== 
+
+training:
+  batch_size: 64
+  epochs: 30
+  learning_rate: 0.00001
+  weight_decay: 0.001
+
+  augmentation:
+    # - "v2.Resize((224, 224), interpolation=Image.BICUBIC)"
+    - "v2.RandomHorizontalFlip()"
+    - "v2.RandomVerticalFlip()"
+    # - "v2.RandomRotation(30)"
+    - "v2.ToTensor()"
+
+  # Set the mode to "Auto" will automatically extract images from the inferenced folder
+  #   for the next round of training without manully copy-paste into artefact/correct_samples folder
+  # Set the model to "Manual" will run the train prosess as usual, only based on your training dataset
+  #   and the samples already exist in the artefact/correct_samples folder. You need to copy-paste 
+  #   the evaluated inferenced images into the artefact/correct_samples folder.
+  mode: "Auto" # "Manual"
+
+evaluation:
+  batch_size: 64
+  augmentation: 
+    # - "v2.Resize((224, 224), interpolation=Image.BICUBIC)"
+    - "v2.ToTensor()"
+
+data:
+  output: "output"
+  train_path: "training_dataset/train"
+  validation_path: "training_dataset/val"

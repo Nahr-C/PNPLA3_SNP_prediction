@@ -1,0 +1,42 @@
+# ===============================================
+# Project configuration file for U-Net
+# 
+# File structure：
+# - training: training parameter, optimizer, augumentation method
+# - evaluation: evaluation parameter
+# - data: data path
+#
+# Please adjust parameters according to your project
+# =============================================== 
+
+training:
+  batch_size: 8
+  epochs: 20
+  learning_rate: 0.0001
+
+  augmentation:
+    - "EnsureChannelFirstd"
+    - "ScaleIntensityd"
+    # - "RandFlipd_axis0"
+    # - "RandFlipd_axis1"
+    - "RandAffined"
+    - "RandGaussianNoised"
+    - "ToTensord"
+
+evaluation:
+  batch_size: 1
+  sample_number: "full_cohort" # "full_cohort" or integers for inference
+  augmentation: 
+    - "EnsureChannelFirstd"
+    - "ToTensord"
+
+PDFF_calculation:
+  r2star_upper_sigma: 2
+  r2star_lower_sigma: 2
+  ff_upper_sigma: 1.1
+  max_iters: 5
+
+data:
+  output: "output"
+  train_path: "training_dataset"
+  dicom_path: "E:/UKB_MRI_Abdomen_Images/2nd_attempt/20254"
